@@ -1,0 +1,47 @@
+# Default configuration for video moment retrieval
+
+model:
+  name: "clip"
+  pretrained: "openai/clip-vit-base-patch32"
+  temporal_modeling: true
+  max_frames: 32
+  frame_sampling: "uniform"
+  freeze_clip: false
+
+data:
+  video_dir: "data/videos"
+  annotation_file: "data/annotations.json"
+  batch_size: 8
+  num_workers: 4
+  video_fps: 1.0
+  image_size: 224
+
+training:
+  epochs: 100
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  warmup_steps: 1000
+  gradient_accumulation_steps: 1
+  mixed_precision: true
+  save_every: 10
+  eval_every: 5
+
+evaluation:
+  metrics: ["r@1", "r@5", "r@10", "mAP", "temporal_consistency"]
+  iou_threshold: 0.5
+  temporal_window: 5
+
+device:
+  device: "auto"
+  mixed_precision_dtype: "auto"
+
+logging:
+  log_dir: "logs"
+  tensorboard: true
+  wandb: false
+  project_name: "video-moment-retrieval"
+
+paths:
+  checkpoint_dir: "checkpoints"
+  output_dir: "outputs"
+  asset_dir: "assets"
